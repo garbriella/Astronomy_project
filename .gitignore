@@ -1,5 +1,8 @@
 # Byte-compiled / optimized / DLL files
+.DS_Store
 __pycache__/
+**/__pycache__/
+**pycache**/
 *.py[codz]
 *$py.class
 
@@ -151,6 +154,7 @@ activemq-data/
 .env
 .envrc
 .venv
+.venv/
 env/
 venv/
 ENV/
@@ -216,3 +220,10 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Local astronomy data (upload these through the app instead)
+*.fits
+*.fit
+*.fts
+*.fz
+sample_data/
