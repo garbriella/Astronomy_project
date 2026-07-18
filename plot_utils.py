@@ -2,10 +2,8 @@
 
 from __future__ import annotations
 
-from typing import Any
-
-import koreanize_matplotlib  # noqa: F401
 import matplotlib.pyplot as plt
+from matplotlib import font_manager, rcParams
 from metpy.calc import parcel_profile, wind_components
 from metpy.plots import SkewT
 from metpy.units import units
@@ -16,6 +14,28 @@ from plotly.subplots import make_subplots
 
 from fits_utils import scale_image
 from weather_utils import thermodynamic_profile
+
+
+def _configure_korean_font() -> str | None:
+    """설치된 한글 글꼴을 사용하되 없더라도 모듈 import를 실패시키지 않는다."""
+
+    available_fonts = {font.name for font in font_manager.fontManager.ttflist}
+    for candidate in (
+        "Noto Sans CJK KR",
+        "Noto Sans KR",
+        "NanumGothic",
+        "Malgun Gothic",
+        "AppleGothic",
+    ):
+        if candidate in available_fonts:
+            rcParams["font.family"] = [candidate, "DejaVu Sans"]
+            rcParams["axes.unicode_minus"] = False
+            return candidate
+    rcParams["axes.unicode_minus"] = False
+    return None
+
+
+KOREAN_FONT = _configure_korean_font()
 
 
 def _downsample_2d(array: np.ndarray, max_side: int = 1000) -> np.ndarray:
